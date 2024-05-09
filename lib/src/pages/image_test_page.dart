@@ -1,23 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:todocontrole/src/widgets/selected_image_widget.dart';
 
-void main() {
-  runApp(MeuApp());
-}
-
-class MeuApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Exemplo de Seleção de Imagem',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: PaginaSelecaoImagem(),
-    );
-  }
-}
 
 class PaginaSelecaoImagem extends StatefulWidget {
   @override
@@ -31,7 +16,7 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
   // Função para selecionar uma imagem da galeria
   Future<void> _selecionarImagem(int indice) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _imagensSelecionadas[indice] = File(pickedFile.path);
@@ -45,9 +30,11 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
       _imagensSelecionadas.add(null);
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
+    List<String> lista = List<String>.generate(_imagensSelecionadas.length, (index) => "$index");
     return Scaffold(
       appBar: AppBar(
         title: Text('Exemplo de Seleção de Imagem'),
@@ -63,15 +50,12 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
               ),
               itemCount: _imagensSelecionadas.length,
               itemBuilder: (context, indice) {
-                return InkWell(
-                  onTap: () => _selecionarImagem(indice),
-                  child: Container(
-                    color: Colors.grey[200],
-                    child: Center(
-                      child: _imagensSelecionadas[indice] != null
-                          ? Image.file(_imagensSelecionadas[indice]!)
-                          : Icon(Icons.add), // Ícone de adição se não houver imagem
-                    ),
+                return Container(
+                  color: Colors.grey[200],
+                  child: Center(
+                    child: _imagensSelecionadas[indice] != null
+                        ? SelectedImageWidget(file: _imagensSelecionadas[indice]!, text: lista[indice],)
+                        : InkWell(child: Icon(Icons.add), onTap: () => _selecionarImagem(indice), ), // Ícone de adição se não houver imagem
                   ),
                 );
               },
