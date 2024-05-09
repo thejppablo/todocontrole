@@ -13,11 +13,12 @@ class PaginaSelecaoImagem extends StatefulWidget {
 }
 
 class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
+  // Variável de controle para alternar entre o modo de edição e visualização
   bool isCustomizable = false;
+
+  // Lista para armazenar os quadrados, cada um representado por um ItemModel
   List<ItemModel> items =
       List.generate(4, (index) => ItemModel(title: '', image: null));
-  // Lista para armazenar as imagens selecionadas
-  //List<File?> _imagensSelecionadas = List.generate(4, (_) => null);
 
   // Função para selecionar uma imagem da galeria
   Future<void> _selecionarImagem(int indice) async {
@@ -25,6 +26,7 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
+        // Atualiza a imagem do quadrado correspondente na lista de items
         items[indice].image = File(pickedFile.path);
       });
     }
@@ -33,6 +35,7 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
   // Função para adicionar um quadrado vazio
   void _adicionarQuadrado() {
     setState(() {
+      // Adiciona um novo ItemModel à lista de items
       items.add(ItemModel(title: '', image: null));
     });
   }
@@ -48,6 +51,7 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
+        // Botão na AppBar para alternar entre o modo de edição e visualização
         onPressed: () {
           setState(() {
             isCustomizable = !isCustomizable;
@@ -72,16 +76,19 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
                       child: Center(
                         child: items[indice].image != null
                             ? SelectedImageWidget(
+                                // Exibe a imagem do quadrado se estiver presente
                                 file: items[indice].image!,
                                 text: items[indice].title,
                               )
                             : InkWell(
+                                // Ícone de adição se não houver imagem
                                 child: Icon(Icons.add),
                                 onTap: () => _showDialog(indice),
-                              ), // Ícone de adição se não houver imagem
+                              ),
                       ),
                     ),
                     Visibility(
+                      // Botão de edição (lápis) visível apenas no modo de edição
                       visible: isCustomizable,
                       child: IconButton(
                         onPressed: () {
@@ -96,12 +103,14 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
                       ),
                     ),
                     Visibility(
+                      // Botão de exclusão (X) visível apenas no modo de edição
                       visible: isCustomizable,
                       child: Positioned(
                         right: 0,
                         child: IconButton(
                           onPressed: () {
                             setState(() {
+                              // Remove o quadrado da lista de items
                               items.removeAt(indice);
                             });
                           },
@@ -129,6 +138,7 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
     );
   }
 
+  // Função para exibir um diálogo para inserir um título personalizado
   Future<void> _showDialog(int index) async {
     return showDialog(
         context: context,
@@ -146,9 +156,11 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
                 onPressed: () {
                   if (textEditingController.text.isNotEmpty) {
                     setState(() {
+                      // Atualiza o título do quadrado correspondente na lista de items
                       items[index].title = textEditingController.text;
                       textEditingController.clear();
                     });
+                    // Seleciona uma imagem após inserir o título
                     _selecionarImagem(index);
                     Navigator.pop(context, 'OK');
                   }
