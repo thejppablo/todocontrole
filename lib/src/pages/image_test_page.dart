@@ -5,9 +5,12 @@ import 'package:todocontrole/src/models/models.dart';
 import 'package:todocontrole/src/widgets/app_bar_widget.dart';
 import 'package:todocontrole/src/widgets/selected_image_widget.dart';
 
+
 class PaginaSelecaoImagem extends StatefulWidget {
+  const PaginaSelecaoImagem({super.key});
+
   @override
-  _PaginaSelecaoImagemState createState() => _PaginaSelecaoImagemState();
+  State<PaginaSelecaoImagem> createState() => _PaginaSelecaoImagemState();
 }
 
 class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
