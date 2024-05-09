@@ -5,7 +5,6 @@ import 'package:todocontrole/src/models/models.dart';
 import 'package:todocontrole/src/widgets/app_bar_widget.dart';
 import 'package:todocontrole/src/widgets/selected_image_widget.dart';
 
-
 class PaginaSelecaoImagem extends StatefulWidget {
   const PaginaSelecaoImagem({super.key});
 
@@ -15,7 +14,8 @@ class PaginaSelecaoImagem extends StatefulWidget {
 
 class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
   bool isCustomizable = false;
-  List<ItemModel> items = List.generate(4, (index) => ItemModel(title: '', image: null));
+  List<ItemModel> items =
+      List.generate(4, (index) => ItemModel(title: '', image: null));
   // Lista para armazenar as imagens selecionadas
   //List<File?> _imagensSelecionadas = List.generate(4, (_) => null);
 
@@ -47,9 +47,13 @@ class _PaginaSelecaoImagemState extends State<PaginaSelecaoImagem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(onPressed: (){setState(() {
-        isCustomizable = !isCustomizable;
-      });},),
+      appBar: AppBarWidget(
+        onPressed: () {
+          setState(() {
+            isCustomizable = !isCustomizable;
+          });
+        },
+      ),
       body: Column(
         children: [
           Expanded(
