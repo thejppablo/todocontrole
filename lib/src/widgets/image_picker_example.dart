@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+void main(){
+  runApp(MaterialApp(
+    home: ImagePickerExamplePage(title: 'sdfasdasd'),
+  ));
+}
+
+
 class ImagePickerExamplePage extends StatefulWidget {
   const ImagePickerExamplePage({super.key, required this.title});
 
